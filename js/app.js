@@ -54,27 +54,152 @@
     return Object.values(raw).filter(v=>v && typeof v==='object' && ('name' in v || 'proPos' in v));
   }
 
-  function renderPlayers(presentation, liveMembers){
-    const box=$('#teamCarousel'); if(!box) return;
-    const members=memberArray(liveMembers);
-    const used=new Set();
-    let cards=presentation.map((p,i)=>{
-      const target=String(p.eaName||p.displayName||'').trim().toLowerCase();
-      let live=members.find((m,mi)=>!used.has(mi) && String(val(m.name,m.gamertag,m.displayName,'')).trim().toLowerCase()===target);
-      if(!live && members[i] && !used.has(i)) live=members[i];
-      if(live){const mi=members.indexOf(live);used.add(mi)}
-      return playerCard(p,live);
-    });
-    if(!presentation.length && members.length) cards=members.slice(0,8).map((m,i)=>playerCard({displayName:val(m.name,m.gamertag,'PLAYER'),position:val(m.proPos,m.position,'--'),role:'SPIELER',image:`/assets/players/hoodie-${(i%5)+1}-crop.png`},m));
-    box.innerHTML=cards.join('');
+  const normalizePlayerName = v =>
+    String(v ?? '').trim().toLowerCase();
+
+  function getPresentationEaNames(player){
+    if(Array.isArray(player?.eaNames)){
+      return player.eaNames
+        .map(normalizePlayerName)
+        .filter(Boolean);
+    }
+
+    if(player?.eaName){
+      return [normalizePlayerName(player.eaName)];
+    }
+
+    return [];
   }
 
-  function playerCard(p,m={}){
-    const name=val(p.displayName,m?.name,m?.gamertag,'PLAYER');
-    const pos=val(p.position,m?.proPos,m?.position,'--');
-    const ovr=val(m?.proOverall,m?.overallRating,m?.rating,'--');
-    const stats=[['PAC',val(m?.pace,m?.pac,'--')],['SHO',val(m?.shooting,m?.sho,'--')],['PAS',val(m?.passing,m?.pas,'--')],['DRI',val(m?.dribbling,m?.dri,'--')],['DEF',val(m?.defending,m?.def,'--')],['PHY',val(m?.physical,m?.phy,'--')]];
-    return `<a class="player-card" href="/team.html?player=${encodeURIComponent(name)}"><div class="player-top"><span>${esc(pos)}</span><span class="ovr">${esc(ovr)}</span></div><img class="player-art" src="${esc(p.image||'/assets/players/hoodie-1.webp')}" alt=""><div class="player-name">${esc(name)}</div><div class="player-role">${esc(p.role||'SPIELER')}</div><div class="player-stats">${stats.map(([k,v])=>`<div class="player-stat"><b>${k}</b><span>${esc(v)}</span></div>`).join('')}</div></a>`;
+  function findExactEaMember(player, members, used = new Set()){
+    const targets = getPresentationEaNames(player);
+
+    if(!targets.length) return null;
+
+    const index = members.findIndex((member, i) => {
+      if(used.has(i)) return false;
+
+      const liveName = normalizePlayerName(
+        member?.name ??
+        member?.gamertag ??
+        member?.displayName ??
+        ''
+      );
+
+      return targets.includes(liveName);
+    });
+
+    if(index === -1) return null;
+
+    used.add(index);
+
+    return members[index];
+  }
+
+  function renderPlayers(presentation, liveMembers){
+    const box = $('#teamCarousel');
+    if(!box) return;
+
+    const members = memberArray(liveMembers);
+    const used = new Set();
+
+    const ordered = [...presentation].sort(
+      (a,b) => (a.order ?? 999) - (b.order ?? 999)
+    );
+
+    let cards = ordered.map(player => {
+      const live = findExactEaMember(player, members, used);
+
+      return playerCard(player, live);
+    });
+
+    if(!ordered.length && members.length){
+      cards = members.slice(0,8).map((member,i) =>
+        playerCard({
+          displayName: val(
+            member.name,
+            member.gamertag,
+            'PLAYER'
+          ),
+          position: val(
+            member.proPos,
+            member.position,
+            '--'
+          ),
+          role: 'SPIELER',
+          image: `/assets/players/hoodie-${(i % 5) + 1}.webp`
+        }, member)
+      );
+    }
+
+    box.innerHTML = cards.join('');
+  }
+
+  function playerCard(p, m = null){
+    const name = val(
+      p.displayName,
+      m?.name,
+      m?.gamertag,
+      'PLAYER'
+    );
+
+    const pos = val(
+      p.position,
+      m?.proPos,
+      m?.position,
+      '--'
+    );
+
+    // Niemals Match-Rating als OVR ausgeben.
+    const ovr = val(
+      m?.proOverall,
+      m?.overallRating,
+      '--'
+    );
+
+    const stats = [
+      ['PAC', val(m?.pace, m?.pac, '--')],
+      ['SHO', val(m?.shooting, m?.sho, '--')],
+      ['PAS', val(m?.passing, m?.pas, '--')],
+      ['DRI', val(m?.dribbling, m?.dri, '--')],
+      ['DEF', val(m?.defending, m?.def, '--')],
+      ['PHY', val(m?.physical, m?.phy, '--')]
+    ];
+
+    return `
+      <a
+        class="player-card"
+        href="/team.html?player=${encodeURIComponent(name)}"
+      >
+        <div class="player-top">
+          <span>${esc(pos)}</span>
+          <span class="ovr">${esc(ovr)}</span>
+        </div>
+
+        <img
+          class="player-art"
+          src="${esc(p.image || '/assets/players/hoodie-1.webp')}"
+          alt=""
+        >
+
+        <div class="player-name">
+          ${esc(name)}
+        </div>
+
+        <div class="player-role">
+          ${esc(p.role || 'SPIELER')}
+        </div>
+
+        <div class="player-stats">
+          ${stats.map(([key,value]) => `
+            <div class="player-stat">
+              <b>${key}</b>
+              <span>${esc(value)}</span>
+            </div>
+          `).join('')}
+        </div>
+      </a>
+    `;
   }
 
   function renderNews(news){const box=$('#homeNews');if(!box)return;box.innerHTML=news.slice(0,3).map(n=>`<a class="news-card" href="/${n.type==='INTERVIEW'?'interviews':'news'}.html?slug=${encodeURIComponent(n.slug)}"><img src="${esc(n.image)}" alt=""><div class="news-copy"><div class="news-meta">${esc(n.type)} &nbsp; ${esc(n.date)}</div><h3>${esc(n.title)}</h3><p>${esc(n.excerpt)}</p></div><span class="news-arrow">›</span></a>`).join('')}
