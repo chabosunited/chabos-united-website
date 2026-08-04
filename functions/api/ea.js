@@ -36,16 +36,30 @@ export async function onRequestGet(context){
     playoffMatches:`${base}/clubs/matches?platform=${encodeURIComponent(platform)}&clubIds=${encodeURIComponent(clubId)}&matchType=playoffMatch&maxResultCount=20`
   };
 
-  const headers={
-    'accept':'application/json,text/plain,*/*',
-    'accept-language':'de-DE,de;q=0.9,en;q=0.8',
-    'referer':'https://www.ea.com/',
-    'user-agent':'Mozilla/5.0 (compatible; ChabosUnited/1.0; +https://www.ea.com/)'
-  };
+const eaOverviewUrl =
+  `https://www.ea.com/games/ea-sports-fc/clubs/overview?clubId=${encodeURIComponent(clubId)}&platform=${encodeURIComponent(platform)}`;
+
+const headers = {
+  'accept': 'application/json',
+  'accept-language': 'de-DE,de;q=0.9,en-US;q=0.8,en;q=0.7',
+  'origin': 'https://www.ea.com',
+  'referer': eaOverviewUrl,
+  'cache-control': 'no-cache',
+  'pragma': 'no-cache',
+  'sec-fetch-dest': 'empty',
+  'sec-fetch-mode': 'cors',
+  'sec-fetch-site': 'same-site',
+  'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36'
+};
   const settled=await Promise.allSettled(Object.entries(endpoints).map(async([key,url])=>{
     const controller=new AbortController(); const t=setTimeout(()=>controller.abort(),8000);
     try{
-      const res=await fetch(url,{headers,signal:controller.signal,cf:{cacheTtl:0,cacheEverything:false}});
+      const res = await fetch(url, {
+  method: 'GET',
+  headers,
+  signal: controller.signal,
+  redirect: 'follow'
+});
       const text=await res.text();
       if(!res.ok) throw new Error(`${res.status} ${text.slice(0,120)}`);
       let data; try{data=JSON.parse(text)}catch{throw new Error('EA returned non-JSON data')}
