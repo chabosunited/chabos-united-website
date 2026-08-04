@@ -14,3 +14,13 @@
 @media(max-width:480px){.shell{width:calc(100% - 20px)}.hero{height:390px}.hero h1{font-size:51px;margin-top:7px}.hero-subtitle{font-size:19px}.hero-actions{flex-direction:column;gap:0;margin-top:13px}.image-button.apply{width:188px}.image-button.team{width:170px;margin-top:-8px}.hero-trio{width:270px;bottom:-6px}.team-section{height:204px}.section-title-row h2,.panel-heading h2{font-size:19px}.recruit-copy{width:78%}.recruit-figure{right:-20px;opacity:.35}.community p{width:65%}.footer{grid-template-columns:1fr}.footer-links{border-left:0;border-top:1px solid #222;padding:8px 0}.footer-bottom{flex-direction:column}.subhero h1{font-size:42px}}
 @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
 .roster-detail{display:grid;grid-template-columns:120px 1fr;min-height:190px;gap:12px;overflow:hidden}.roster-detail>img{width:120px;height:160px;object-fit:contain;filter:brightness(.75)}.roster-detail h3{font-size:22px}.roster-detail p{font-size:9px;margin:2px 0 10px}.roster-detail dl{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:0}.roster-detail dl div{border:1px solid #242424;padding:6px;text-align:center}.roster-detail dt{font-size:7px;color:#777}.roster-detail dd{font:900 16px/1 var(--head);margin:3px 0 0}.results-list{display:flex;flex-direction:column}.result-big{display:grid;grid-template-columns:1fr 120px 1fr;align-items:center;min-height:78px;border-bottom:1px solid #242424}.result-big>div{display:flex;align-items:center;gap:12px}.result-big img{width:42px;height:42px;object-fit:contain}.result-big>b{text-align:center;font:900 28px/1 var(--head)}.result-big .away{justify-content:flex-end}.wide-thumb{width:100%;height:150px;object-fit:cover;filter:grayscale(1)}.article-view{max-width:760px;margin:auto}.article-view>img{width:100%;max-height:360px;object-fit:cover;filter:grayscale(1);margin-bottom:16px}.article-view h2{font:900 36px/1 var(--head);margin:6px 0 12px}.article-view h3{font:900 19px/1 var(--head);margin-top:24px}.article-view p{font-size:12px;line-height:1.7;color:#bbb}.article-view blockquote{margin:14px 0;padding:16px;border-left:2px solid #ddd;background:#0b0b0b;font:900 25px/1.1 var(--head)}.empty{color:#999;padding:30px;text-align:center}
+/* HERO TITLE PNG */
+.hero-title-image {
+    display: block;
+    width: 650px;
+    max-width: 72vw;
+    height: auto;
+    margin: 0 auto;
+    object-fit: contain;
+    filter: drop-shadow(0 4px 12px rgba(0,0,0,.65));
+}
