@@ -9,8 +9,159 @@
   const clubId=String(cfg.clubId||'5395290');
   const normMatch=m=>{const c=m?.clubs||{};const e=Object.entries(c);let ours=c[clubId]||e.find(([,v])=>String(v?.name||'').toLowerCase()==='chabos united')?.[1]||{};let opp=e.map(([,v])=>v).find(v=>v!==ours)||{};return{ours,opp,raw:m}};
   document.addEventListener('DOMContentLoaded',()=>{const page=document.body.dataset.page;if(page==='team')loadTeam();if(page==='results')loadResults();if(page==='news')loadNews();if(page==='interviews')loadInterviews();if(page==='apply')bindApply()});
-  async function loadTeam(){const [pres,live]=await Promise.all([json('/data/players.json',[]),ea()]);const members=arrMembers(live?.memberStats);const box=$('#rosterGrid');box.innerHTML=pres.map((p,i)=>{const target=String(p.eaName||p.displayName).toLowerCase();const m=members.find(x=>String(val(x.name,x.gamertag,'')).toLowerCase()===target)||members[i]||{};return `<article class="detail-card roster-detail"><img src="${esc(p.image)}" alt=""><div><span>${esc(val(p.position,m.proPos))}</span><h3>${esc(p.displayName)}</h3><p>${esc(p.role)}</p><dl><div><dt>OVR</dt><dd>${esc(val(m.proOverall))}</dd></div><div><dt>SPIELE</dt><dd>${esc(val(m.gamesPlayed,m.games))}</dd></div><div><dt>TORE</dt><dd>${esc(val(m.goals))}</dd></div><div><dt>ASSISTS</dt><dd>${esc(val(m.assists))}</dd></div><div><dt>RATING</dt><dd>${esc(val(m.ratingAve))}</dd></div><div><dt>SIEGE</dt><dd>${esc(val(m.wins))}</dd></div></dl></div></article>`}).join('')}
-  async function loadResults(){const live=await ea();const raw=live?.leagueMatches||[];const list=matches(raw).map(normMatch);const box=$('#resultsList');if(!list.length){box.innerHTML='<p class="empty">Keine EA Match-Daten verfügbar.</p>';return}box.innerHTML=list.map(m=>`<article class="result-big"><div><img src="/assets/branding/logo.webp" alt=""><strong>CHABOS UNITED</strong></div><b>${esc(val(m.ours.goals,m.ours.score))} - ${esc(val(m.opp.goals,m.opp.score))}</b><div class="away"><strong>${esc(val(m.opp.name,'GEGNER'))}</strong></div></article>`).join('')}
+    const normalizePlayerName = v =>
+    String(v ?? '').trim().toLowerCase();
+
+  function playerEaNames(player){
+    if(Array.isArray(player?.eaNames)){
+      return player.eaNames
+        .map(normalizePlayerName)
+        .filter(Boolean);
+    }
+
+    if(player?.eaName){
+      return [normalizePlayerName(player.eaName)];
+    }
+
+    return [];
+  }
+
+  function exactMember(player, members){
+    const targets = playerEaNames(player);
+
+    if(!targets.length) return null;
+
+    return members.find(member => {
+      const name = normalizePlayerName(
+        member?.name ??
+        member?.gamertag ??
+        ''
+      );
+
+      return targets.includes(name);
+    }) || null;
+  }
+
+  async function loadTeam(){
+    const [pres,live] = await Promise.all([
+      json('/data/players.json',[]),
+      ea()
+    ]);
+
+    const members = arrMembers(live?.memberStats);
+    const career = arrMembers(live?.careerStats);
+
+    const box = $('#rosterGrid');
+
+    if(!box) return;
+
+    const ordered = [...pres].sort(
+      (a,b) => (a.order ?? 999) - (b.order ?? 999)
+    );
+
+    box.innerHTML = ordered.map(player => {
+
+      const member = exactMember(player,members) || {};
+      const careerMember = exactMember(player,career) || {};
+
+      const winRate =
+        member.winRate !== undefined &&
+        member.winRate !== null &&
+        member.winRate !== ''
+          ? `${member.winRate}%`
+          : '--';
+
+      return `
+        <article class="detail-card roster-detail">
+
+          <img
+            src="${esc(player.image)}"
+            alt=""
+          >
+
+          <div>
+
+            <span>
+              ${esc(val(
+                player.position,
+                member.proPos
+              ))}
+            </span>
+
+            <h3>
+              ${esc(player.displayName)}
+            </h3>
+
+            <p>
+              ${esc(player.role)}
+            </p>
+
+            <dl>
+
+              <div>
+                <dt>OVR</dt>
+                <dd>
+                  ${esc(val(
+                    member.proOverall
+                  ))}
+                </dd>
+              </div>
+
+              <div>
+                <dt>SPIELE</dt>
+                <dd>
+                  ${esc(val(
+                    member.gamesPlayed,
+                    careerMember.gamesPlayed
+                  ))}
+                </dd>
+              </div>
+
+              <div>
+                <dt>TORE</dt>
+                <dd>
+                  ${esc(val(
+                    member.goals,
+                    careerMember.goals
+                  ))}
+                </dd>
+              </div>
+
+              <div>
+                <dt>ASSISTS</dt>
+                <dd>
+                  ${esc(val(
+                    member.assists,
+                    careerMember.assists
+                  ))}
+                </dd>
+              </div>
+
+              <div>
+                <dt>RATING</dt>
+                <dd>
+                  ${esc(val(
+                    member.ratingAve,
+                    careerMember.ratingAve
+                  ))}
+                </dd>
+              </div>
+
+              <div>
+                <dt>WINRATE</dt>
+                <dd>
+                  ${esc(winRate)}
+                </dd>
+              </div>
+
+            </dl>
+
+          </div>
+
+        </article>
+      `;
+    }).join('');
+  }
   async function loadNews(){const news=await json('/data/news.json',[]);const slug=new URLSearchParams(location.search).get('slug');const box=$('#newsPage');if(slug){const n=news.find(x=>x.slug===slug);if(!n){box.innerHTML='<p class="empty">Artikel nicht gefunden.</p>';return}box.innerHTML=`<article class="article-view"><img src="${esc(n.image)}" alt=""><div class="news-meta">${esc(n.type)} · ${esc(n.date)}</div><h2>${esc(n.title)}</h2><p>${esc(n.excerpt)}</p><p>Weitere Inhalte kannst du direkt in <code>data/news.json</code> ergänzen. Die Website benötigt dafür keine Datenbank.</p></article>`;return}box.className='content-grid';box.innerHTML=news.map(n=>`<a class="detail-card" href="/news.html?slug=${encodeURIComponent(n.slug)}"><img class="wide-thumb" src="${esc(n.image)}" alt=""><div class="news-meta">${esc(n.type)} · ${esc(n.date)}</div><h3>${esc(n.title)}</h3><p>${esc(n.excerpt)}</p></a>`).join('')}
   async function loadInterviews(){const list=await json('/data/interviews.json',[]);const slug=new URLSearchParams(location.search).get('slug');const box=$('#interviewPage');const selected=slug?list.find(x=>x.slug===slug):null;if(selected){box.innerHTML=`<article class="article-view"><img src="${esc(selected.cover)}" alt=""><div class="news-meta">INTERVIEW · ${esc(selected.date)}</div><h2>${esc(selected.title)}</h2><blockquote>„${esc(selected.quote)}“</blockquote><p>${esc(selected.intro)}</p>${selected.qa.map(x=>`<h3>${esc(x.q)}</h3><p>${esc(x.a)}</p>`).join('')}</article>`;return}box.className='content-grid';box.innerHTML=list.map(i=>`<a class="detail-card" href="/interviews.html?slug=${encodeURIComponent(i.slug)}"><img class="wide-thumb" src="${esc(i.cover)}" alt=""><div class="news-meta">${esc(i.date)}</div><h3>${esc(i.title)}</h3><p>„${esc(i.quote)}“</p></a>`).join('')}
   function bindApply(){const f=$('#applicationForm');const status=$('#applicationStatus');f?.addEventListener('submit',async e=>{e.preventDefault();status.textContent='Wird gesendet …';const fd=new FormData(f),body=Object.fromEntries(fd.entries());body.privacy=fd.get('privacy')==='on';try{const r=await fetch('/api/application',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(body)});const j=await r.json();if(!r.ok)throw new Error(j.error||'Fehler');status.textContent='Bewerbung wurde erfolgreich an Chabos United gesendet.';f.reset()}catch(err){status.textContent=err.message||'Bewerbung konnte nicht gesendet werden.'}})}
