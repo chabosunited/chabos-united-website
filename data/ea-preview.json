@@ -1,0 +1,171 @@
+{
+  "clubInfo": {
+    "5395290": {
+      "name": "Chabos United",
+      "clubId": "5395290"
+    }
+  },
+  "overallStats": {
+    "5395290": {
+      "gamesPlayed": "12",
+      "wins": "9",
+      "ties": "2",
+      "losses": "1",
+      "goals": "34",
+      "goalsAgainst": "11",
+      "skillRating": "1980",
+      "division": "1"
+    }
+  },
+  "memberStats": {
+    "members": [
+      {
+        "name": "MATSCHO",
+        "proPos": "ST",
+        "proOverall": "92",
+        "gamesPlayed": "12",
+        "goals": "14",
+        "assists": "5",
+        "ratingAve": "9.2",
+        "wins": "9",
+        "cleanSheets": "0",
+        "pace": "94",
+        "shooting": "92",
+        "passing": "85",
+        "dribbling": "93",
+        "defending": "45",
+        "physical": "88"
+      },
+      {
+        "name": "CHABO-MAGIC",
+        "proPos": "CAM",
+        "proOverall": "91",
+        "gamesPlayed": "12",
+        "goals": "7",
+        "assists": "11",
+        "ratingAve": "9.1",
+        "wins": "9",
+        "cleanSheets": "0",
+        "pace": "90",
+        "shooting": "89",
+        "passing": "91",
+        "dribbling": "93",
+        "defending": "52",
+        "physical": "80"
+      },
+      {
+        "name": "CHABO-VISION",
+        "proPos": "CDM",
+        "proOverall": "90",
+        "gamesPlayed": "12",
+        "goals": "2",
+        "assists": "6",
+        "ratingAve": "9.0",
+        "wins": "9",
+        "cleanSheets": "4",
+        "pace": "85",
+        "shooting": "78",
+        "passing": "90",
+        "dribbling": "86",
+        "defending": "91",
+        "physical": "90"
+      },
+      {
+        "name": "CHABO-WALL",
+        "proPos": "CB",
+        "proOverall": "90",
+        "gamesPlayed": "12",
+        "goals": "1",
+        "assists": "2",
+        "ratingAve": "9.0",
+        "wins": "9",
+        "cleanSheets": "5",
+        "pace": "82",
+        "shooting": "55",
+        "passing": "71",
+        "dribbling": "75",
+        "defending": "91",
+        "physical": "92"
+      },
+      {
+        "name": "CHABO-SAVE",
+        "proPos": "GK",
+        "proOverall": "89",
+        "gamesPlayed": "12",
+        "goals": "0",
+        "assists": "0",
+        "ratingAve": "8.9",
+        "wins": "9",
+        "cleanSheets": "5",
+        "pace": "60",
+        "shooting": "40",
+        "passing": "65",
+        "dribbling": "55",
+        "defending": "80",
+        "physical": "90"
+      }
+    ]
+  },
+  "leagueMatches": [
+    {
+      "clubs": {
+        "5395290": {
+          "name": "CHABOS UNITED",
+          "goals": "3"
+        },
+        "101": {
+          "name": "RedZone FC",
+          "goals": "1"
+        }
+      }
+    },
+    {
+      "clubs": {
+        "5395290": {
+          "name": "CHABOS UNITED",
+          "goals": "2"
+        },
+        "102": {
+          "name": "NextGen Pro",
+          "goals": "1"
+        }
+      }
+    },
+    {
+      "clubs": {
+        "5395290": {
+          "name": "CHABOS UNITED",
+          "goals": "4"
+        },
+        "103": {
+          "name": "Vortex eSports",
+          "goals": "0"
+        }
+      }
+    },
+    {
+      "clubs": {
+        "5395290": {
+          "name": "CHABOS UNITED",
+          "goals": "1"
+        },
+        "104": {
+          "name": "Elite XI",
+          "goals": "1"
+        }
+      }
+    },
+    {
+      "clubs": {
+        "5395290": {
+          "name": "CHABOS UNITED",
+          "goals": "2"
+        },
+        "105": {
+          "name": "Northside",
+          "goals": "3"
+        }
+      }
+    }
+  ]
+}
