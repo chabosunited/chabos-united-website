@@ -136,10 +136,15 @@
     if (!box || !Array.isArray(partners) || !partners.length) return;
 
     box.innerHTML = partners.map(item => {
-      const inner = `${escapeHtml(item.name || '')}${item.sub ? `<br><b>${escapeHtml(item.sub)}</b>` : ''}`;
+      const text = `<span class="partner-text">${escapeHtml(item.name || '')}${item.sub ? `<br><b>${escapeHtml(item.sub)}</b>` : ''}</span>`;
+      const inner = item.logo
+        ? `<img class="partner-logo" src="${escapeAttr(item.logo)}" alt="${escapeAttr(item.name || 'Partner')}">`
+        : text;
+      const label = item.name ? ` aria-label="${escapeAttr(item.name)}"` : '';
+
       return item.url && item.url !== '#'
-        ? `<a href="${escapeAttr(item.url)}" target="_blank" rel="noopener noreferrer">${inner}</a>`
-        : `<span>${inner}</span>`;
+        ? `<a class="partner-item" href="${escapeAttr(item.url)}" target="_blank" rel="noopener noreferrer"${label}>${inner}</a>`
+        : `<span class="partner-item"${label}>${inner}</span>`;
     }).join('');
   }
 

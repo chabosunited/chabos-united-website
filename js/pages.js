@@ -121,6 +121,12 @@
             <div><dt>ASSISTS</dt><dd>${esc(val(member.assists, careerMember.assists))}</dd></div>
             <div><dt>RATING</dt><dd>${esc(val(member.ratingAve, careerMember.ratingAve))}</dd></div>
             <div><dt>WINRATE</dt><dd>${esc(winRate)}</dd></div>
+            <div><dt>PAC</dt><dd>${esc(val(player?.cardStats?.pac, member?.pace, member?.pac))}</dd></div>
+            <div><dt>SHO</dt><dd>${esc(val(player?.cardStats?.sho, member?.shooting, member?.sho))}</dd></div>
+            <div><dt>PAS</dt><dd>${esc(val(player?.cardStats?.pas, member?.passing, member?.pas))}</dd></div>
+            <div><dt>DRI</dt><dd>${esc(val(player?.cardStats?.dri, member?.dribbling, member?.dri))}</dd></div>
+            <div><dt>DEF</dt><dd>${esc(val(player?.cardStats?.def, member?.defending, member?.def))}</dd></div>
+            <div><dt>PHY</dt><dd>${esc(val(player?.cardStats?.phy, member?.physical, member?.phy))}</dd></div>
           </dl>
         </div>
       </article>`;

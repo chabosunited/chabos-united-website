@@ -60,8 +60,9 @@
 
         <div class="admin-panel admin-info-panel">
           <h3>SO FUNKTIONIERT DAS CMS</h3>
-          <p>Änderungen werden über Cloudflare KV gespeichert und von Cloudflare Pages sowie GitHub Pages automatisch geladen. Die statischen JSON-Dateien bleiben als Fallback erhalten.</p>
-          <p>Auf localhost läuft ein lokaler Preview-Modus. Login-Passwort dort: <code>admin</code>. Lokale Änderungen bleiben nur in diesem Browser.</p>
+          <p>Online werden Änderungen über Cloudflare KV gespeichert und von Cloudflare Pages sowie GitHub Pages automatisch geladen. Die statischen JSON-Dateien bleiben als Fallback erhalten.</p>
+          <p><strong>Neu:</strong> Wenn du lokal über <code>start_server.bat</code> startest, werden Änderungen direkt in <code>data/*.json</code> deines Projektordners geschrieben. Bild-Uploads werden lokal ebenfalls als echte Asset-Dateien gespeichert.</p>
+          <p>Lokales Admin-Passwort: <code>admin</code>. Nutze für den lokalen Schreibmodus unbedingt <code>start_server.bat</code> und nicht VS-Code Live Server.</p>
         </div>
       </section>
 
@@ -128,6 +129,9 @@
           </div>
         </div>
         <div class="admin-panel">
+          <h3>PARTNER-LOGOS</h3>
+          <p>Du kannst pro Partner eine Website-URL sowie einen Logo-Pfad / eine Bild-URL eintragen. Alternativ kannst du ein Logo direkt hochladen. Das Logo wird auf der Website automatisch proportional in die Partnerleiste eingepasst.</p>
+          <p class="admin-note">Cloudflare: Upload benötigt das R2-Binding <code>CHABOS_MEDIA</code>. Lokal werden Uploads automatisch unter <code>assets/partners/uploads/</code> gespeichert.</p>
           <div id="partnersEditor"></div>
         </div>
       </section>
@@ -138,7 +142,7 @@
         </div>
         <div class="admin-panel">
           <h3>BILD HOCHLADEN</h3>
-          <p>Cloudflare R2 Binding <code>CHABOS_MEDIA</code> erforderlich. Nach dem Upload erhältst du eine öffentliche URL, die du bei Spielern, News oder Website-Bildern eintragen kannst.</p>
+          <p>Online benötigt der Upload das Cloudflare-R2-Binding <code>CHABOS_MEDIA</code>. Lokal über <code>start_server.bat</code> werden Bilder direkt in deinem Projektordner unter <code>assets/uploads/</code> gespeichert.</p>
           <form id="mediaUploadForm" class="media-upload-form">
             <input id="mediaFile" type="file" accept="image/png,image/jpeg,image/webp,image/avif">
             <button class="admin-primary" type="submit">UPLOAD</button>
@@ -197,6 +201,20 @@
         <label>Sortierung<input type="number" name="order"></label>
         <label class="wide">Spielerbild<input name="image"></label>
         <label class="wide">EA Namen<input name="eaNamesText" placeholder="MATSCHO63, MATSCHO"></label>
+
+        <div class="admin-form-group wide">
+          <h3>PLAYER CARD WERTE</h3>
+          <p class="admin-note">Diese Werte werden manuell gepflegt. Falls ein Feld leer bleibt, versucht die Website weiterhin einen entsprechenden EA-Wert zu verwenden.</p>
+          <div class="player-stat-editor">
+            <label>PAC<input type="number" min="0" max="99" name="stat_pac" placeholder="--"></label>
+            <label>SHO<input type="number" min="0" max="99" name="stat_sho" placeholder="--"></label>
+            <label>PAS<input type="number" min="0" max="99" name="stat_pas" placeholder="--"></label>
+            <label>DRI<input type="number" min="0" max="99" name="stat_dri" placeholder="--"></label>
+            <label>DEF<input type="number" min="0" max="99" name="stat_def" placeholder="--"></label>
+            <label>PHY<input type="number" min="0" max="99" name="stat_phy" placeholder="--"></label>
+          </div>
+        </div>
+
         <button class="admin-primary wide" type="submit">SPIELER SPEICHERN</button>
       </form>
     </div>

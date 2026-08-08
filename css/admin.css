@@ -113,7 +113,26 @@
 }
 button.danger,.danger{color:#ffb1b1!important;border-color:#573030!important}
 .admin-empty{color:#777;padding:25px;text-align:center}
-.partner-edit-row{display:grid;grid-template-columns:1fr 1fr 1.4fr 34px;gap:8px;margin-bottom:8px}
+.partner-edit-row{
+  display:grid;grid-template-columns:86px minmax(0,1fr) 175px 34px;gap:10px;align-items:center;
+  margin:0 0 12px;padding:10px;background:#060606;border:1px solid #202020
+}
+.partner-admin-preview{
+  width:86px;height:62px;background:#0c0c0c;border:1px solid #292929;
+  display:flex;align-items:center;justify-content:center;overflow:hidden
+}
+.partner-admin-preview img{max-width:76px;max-height:45px;width:auto;height:auto;object-fit:contain;filter:grayscale(1) brightness(1.25)}
+.partner-admin-preview span{font-size:8px;letter-spacing:.14em;color:#555}
+.partner-edit-fields{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+.partner-edit-fields input[name="url"],.partner-edit-fields input[name="logo"]{grid-column:1/-1}
+.partner-upload-tools{display:flex;flex-direction:column;gap:7px;min-width:0}
+.partner-upload-tools input[type="file"]{width:100%;font-size:8px;color:#888}
+.partner-upload-tools button{width:100%}
+.partner-remove{align-self:stretch!important;height:auto!important;min-height:34px}
+.player-stat-editor{display:grid;grid-template-columns:repeat(6,1fr);gap:8px}
+.player-stat-editor label{text-align:center}
+.player-stat-editor input{text-align:center;font-size:16px;font-weight:700}
+.admin-note{font-size:9px!important;color:#7f7f7f!important;margin:5px 0 14px!important}
 .media-upload-form{display:flex;gap:10px;align-items:center;margin:16px 0}
 .media-upload-form input[type="file"]{color:#aaa}
 .media-url-label{margin-top:10px}
@@ -152,5 +171,10 @@ button.danger,.danger{color:#ffb1b1!important;border-color:#573030!important}
   .admin-card{grid-template-columns:65px 1fr}
   .admin-card-thumb{width:65px;height:55px}
   .admin-card-actions{grid-column:1/-1}
-  .partner-edit-row{grid-template-columns:1fr}
+  .partner-edit-row{grid-template-columns:72px 1fr}
+  .partner-admin-preview{width:72px;height:58px}
+  .partner-upload-tools,.partner-remove{grid-column:1/-1}
+  .partner-edit-fields{grid-template-columns:1fr}
+  .partner-edit-fields input[name="url"],.partner-edit-fields input[name="logo"]{grid-column:auto}
+  .player-stat-editor{grid-template-columns:repeat(3,1fr)}
 }

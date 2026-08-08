@@ -2,31 +2,37 @@
   {
     "name": "GLORIOUS",
     "sub": "GAMING",
-    "url": "#"
+    "url": "#",
+    "logo": ""
   },
   {
     "name": "LEVLUP",
     "sub": "GAMING BOOSTER",
-    "url": "#"
+    "url": "#",
+    "logo": ""
   },
   {
     "name": "INSTANT",
     "sub": "GAMING",
-    "url": "#"
+    "url": "#",
+    "logo": ""
   },
   {
     "name": "FLEXISPOT",
     "sub": "",
-    "url": "#"
+    "url": "#",
+    "logo": ""
   },
   {
     "name": "A D E P T",
     "sub": "",
-    "url": "#"
+    "url": "#",
+    "logo": ""
   },
   {
     "name": "ZURICH",
     "sub": "E-SPORTS",
-    "url": "#"
+    "url": "#",
+    "logo": ""
   }
 ]

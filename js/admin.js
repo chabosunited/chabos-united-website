@@ -65,20 +65,43 @@
     const key = qs.get('key') || options.body?.key;
 
     if (action === 'get') {
-      const stored = localStorage.getItem(`chabos_cms_${key}`);
-      if (stored) return { data: JSON.parse(stored) };
-      const fallback = await fetch(`data/${key}.json`).then(r => r.ok ? r.json() : null).catch(() => null);
+      try {
+        const response = await fetch(`/api/local/content?key=${encodeURIComponent(key)}`, { cache:'no-store' });
+        if (response.ok) return await response.json();
+      } catch {}
+
+      const fallback = await fetch(`data/${key}.json`, { cache:'no-store' })
+        .then(r => r.ok ? r.json() : null)
+        .catch(() => null);
       return { data: fallback };
     }
+
     if (action === 'save') {
-      localStorage.setItem(`chabos_cms_${options.body.key}`, JSON.stringify(options.body.data));
-      return { ok: true };
+      const response = await fetch('/api/local/content', {
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({ key:options.body.key, data:options.body.data })
+      }).catch(() => null);
+
+      if (!response) throw new Error('Lokaler Dateiserver nicht erreichbar. Starte die Website über start_server.bat.');
+      const payload = await response.json().catch(() => ({}));
+      if (!response.ok) throw new Error(payload.error || 'Lokales Speichern fehlgeschlagen');
+      return payload;
     }
+
     if (action === 'delete') {
-      localStorage.removeItem(`chabos_cms_${key}`);
-      return { ok: true };
+      const response = await fetch('/api/local/content', {
+        method:'DELETE',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({ key })
+      }).catch(() => null);
+      if (!response) throw new Error('Lokaler Dateiserver nicht erreichbar. Starte die Website über start_server.bat.');
+      const payload = await response.json().catch(() => ({}));
+      if (!response.ok) throw new Error(payload.error || 'Lokales Löschen fehlgeschlagen');
+      return payload;
     }
-    if (action === 'status') return { ok: true, mode: 'LOCAL DEV' };
+
+    if (action === 'status') return { ok: true, mode: 'LOCAL FILE CMS' };
     throw new Error('Lokale Aktion nicht unterstützt');
   }
 
@@ -110,7 +133,9 @@
 
   async function saveKey(key) {
     await api('save', { method:'POST', body:{ key, data:state[key] } });
-    setStatus(`${key.toUpperCase()} GESPEICHERT`);
+    setStatus(isLocal && token === 'local-dev'
+      ? `${key.toUpperCase()} DIREKT IN data/${key}.json GESPEICHERT`
+      : `${key.toUpperCase()} GESPEICHERT`);
   }
 
   function bindTabs() {
@@ -139,7 +164,7 @@
     });
 
     $('#addPartner')?.addEventListener('click', () => {
-      state.partners.push({name:'NEUER PARTNER',sub:'',url:'#'});
+      state.partners.push({name:'NEUER PARTNER',sub:'',url:'#',logo:''});
       renderPartnersEditor();
     });
 
@@ -170,7 +195,7 @@
     $('#countNews').textContent = state.news.length;
     $('#countInterviews').textContent = state.interviews.length;
     $('#countPartners').textContent = state.partners.length;
-    $('#adminMode').textContent = isLocal && token === 'local-dev' ? 'LOCAL DEV' : 'CLOUDFLARE CMS';
+    $('#adminMode').textContent = isLocal && token === 'local-dev' ? 'LOCAL FILE CMS' : 'CLOUDFLARE CMS';
   }
 
   function renderSite() {
@@ -307,10 +332,22 @@
   }
 
   function openPlayerEditor(index = -1) {
-    const item = index >= 0 ? state.players[index] : {displayName:'',position:'',role:'',number:'',image:'assets/players/hoodie-1.webp',order:state.players.length+1,eaNames:[]};
+    const item = index >= 0 ? state.players[index] : {
+      displayName:'', position:'', role:'', number:'', image:'assets/players/hoodie-1.webp',
+      order:state.players.length+1, eaNames:[], cardStats:{}
+    };
     const form = $('#playerForm');
     form.dataset.index = index;
-    fillForm(form, {...item, eaNamesText:Array.isArray(item.eaNames) ? item.eaNames.join(', ') : ''});
+    fillForm(form, {
+      ...item,
+      eaNamesText:Array.isArray(item.eaNames) ? item.eaNames.join(', ') : '',
+      stat_pac:item.cardStats?.pac ?? '',
+      stat_sho:item.cardStats?.sho ?? '',
+      stat_pas:item.cardStats?.pas ?? '',
+      stat_dri:item.cardStats?.dri ?? '',
+      stat_def:item.cardStats?.def ?? '',
+      stat_phy:item.cardStats?.phy ?? ''
+    });
     openEditor($('#playerEditor'));
   }
 
@@ -318,6 +355,12 @@
     event.preventDefault();
     const form = event.currentTarget;
     const data = Object.fromEntries(new FormData(form).entries());
+    const stat = value => {
+      if (value === undefined || value === null || String(value).trim() === '') return null;
+      const number = Number(value);
+      if (!Number.isFinite(number)) return null;
+      return Math.max(0, Math.min(99, Math.round(number)));
+    };
     const item = {
       displayName:data.displayName,
       position:data.position,
@@ -325,7 +368,15 @@
       number:data.number ? Number(data.number) : '',
       image:data.image,
       order:data.order ? Number(data.order) : 999,
-      eaNames:(data.eaNamesText || '').split(',').map(v => v.trim()).filter(Boolean)
+      eaNames:(data.eaNamesText || '').split(',').map(v => v.trim()).filter(Boolean),
+      cardStats:{
+        pac:stat(data.stat_pac),
+        sho:stat(data.stat_sho),
+        pas:stat(data.stat_pas),
+        dri:stat(data.stat_dri),
+        def:stat(data.stat_def),
+        phy:stat(data.stat_phy)
+      }
     };
     const index = Number(form.dataset.index);
     if (index >= 0) state.players[index] = item; else state.players.push(item);
@@ -336,23 +387,61 @@
     const box = $('#partnersEditor');
     if (!box) return;
     box.innerHTML = state.partners.map((item,index) => `<div class="partner-edit-row" data-partner-row="${index}">
-      <input name="name" value="${escapeAttr(item.name || '')}" placeholder="Name">
-      <input name="sub" value="${escapeAttr(item.sub || '')}" placeholder="Untertitel">
-      <input name="url" value="${escapeAttr(item.url || '#')}" placeholder="URL">
-      <button type="button" class="danger" data-remove-partner="${index}">×</button>
+      <div class="partner-admin-preview">${item.logo ? `<img src="${escapeAttr(item.logo)}" alt="">` : '<span>LOGO</span>'}</div>
+      <div class="partner-edit-fields">
+        <input name="name" value="${escapeAttr(item.name || '')}" placeholder="Partner Name">
+        <input name="sub" value="${escapeAttr(item.sub || '')}" placeholder="Untertitel / Kategorie">
+        <input name="url" value="${escapeAttr(item.url || '#')}" placeholder="Partner Website URL">
+        <input name="logo" value="${escapeAttr(item.logo || '')}" placeholder="Logo Pfad oder Bild-URL">
+      </div>
+      <div class="partner-upload-tools">
+        <input type="file" accept="image/png,image/jpeg,image/webp,image/avif,image/svg+xml" data-partner-file="${index}">
+        <button type="button" data-upload-partner="${index}">LOGO HOCHLADEN</button>
+      </div>
+      <button type="button" class="danger partner-remove" data-remove-partner="${index}" title="Partner löschen">×</button>
     </div>`).join('');
+
     $$('[data-remove-partner]').forEach(btn => btn.onclick = () => {
       state.partners.splice(Number(btn.dataset.removePartner),1);
       renderPartnersEditor();
     });
+
+    $$('[data-upload-partner]').forEach(btn => btn.onclick = () => uploadPartnerLogo(Number(btn.dataset.uploadPartner)));
+
+    $$('[data-partner-row] input[name="logo"]').forEach(input => input.addEventListener('input', () => {
+      const row = input.closest('[data-partner-row]');
+      const preview = $('.partner-admin-preview', row);
+      if (!preview) return;
+      preview.innerHTML = input.value.trim() ? `<img src="${escapeAttr(input.value.trim())}" alt="">` : '<span>LOGO</span>';
+    }));
   }
 
   function collectPartnerRows() {
     return $$('[data-partner-row]').map(row => ({
       name:$('input[name="name"]',row).value,
       sub:$('input[name="sub"]',row).value,
-      url:$('input[name="url"]',row).value || '#'
+      url:$('input[name="url"]',row).value || '#',
+      logo:$('input[name="logo"]',row).value.trim()
     }));
+  }
+
+  async function uploadPartnerLogo(index) {
+    const row = $(`[data-partner-row="${index}"]`);
+    const input = $(`[data-partner-file="${index}"]`, row || document);
+    const file = input?.files?.[0];
+    if (!row || !file) { setStatus('Bitte zuerst eine Logo-Datei auswählen.', true); return; }
+
+    try {
+      setStatus('PARTNER-LOGO WIRD HOCHGELADEN …');
+      const payload = await uploadFile(file, 'partners');
+      const logoInput = $('input[name="logo"]', row);
+      logoInput.value = payload.url;
+      state.partners = collectPartnerRows();
+      renderPartnersEditor();
+      setStatus(isLocal ? 'LOGO LOKAL ALS ASSET GESPEICHERT – PARTNER NOCH SPEICHERN' : 'LOGO HOCHGELADEN – PARTNER NOCH SPEICHERN');
+    } catch (error) {
+      setStatus(error.message || 'Logo Upload fehlgeschlagen', true);
+    }
   }
 
   async function uploadMedia(event) {
@@ -362,28 +451,62 @@
     const file = input.files?.[0];
     if (!file) return;
 
+    status.textContent = 'UPLOAD …';
+    try {
+      const payload = await uploadFile(file, 'uploads');
+      $('#mediaUrl').value = payload.url;
+      status.textContent = isLocal
+        ? `LOKAL GESPEICHERT: ${payload.url}`
+        : 'UPLOAD ERFOLGREICH';
+    } catch (error) {
+      status.textContent = error.message;
+    }
+  }
+
+  async function uploadFile(file, folder = 'uploads') {
+    if (file.size > 8 * 1024 * 1024) throw new Error('Maximale Dateigröße: 8 MB');
+
     if (isLocal && token === 'local-dev') {
-      status.textContent = 'Lokaler Upload ist nicht öffentlich speicherbar. Nutze Asset-Pfade oder Cloudflare R2.';
-      return;
+      const dataBase64 = await fileToBase64(file);
+      const response = await fetch('/api/local/upload', {
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({
+          filename:file.name,
+          contentType:file.type || 'application/octet-stream',
+          folder,
+          dataBase64
+        })
+      }).catch(() => null);
+
+      if (!response) throw new Error('Lokaler Dateiserver nicht erreichbar. Starte start_server.bat.');
+      const payload = await response.json().catch(() => ({}));
+      if (!response.ok) throw new Error(payload.error || 'Lokaler Upload fehlgeschlagen');
+      return payload;
     }
 
     const formData = new FormData();
     formData.append('file', file);
+    const response = await fetch(`${apiBase()}/api/media`, {
+      method:'POST',
+      headers:{Authorization:`Bearer ${token}`},
+      body:formData
+    });
+    const payload = await response.json().catch(() => ({}));
+    if (!response.ok) throw new Error(payload.error || 'Upload fehlgeschlagen');
+    return payload;
+  }
 
-    status.textContent = 'UPLOAD …';
-    try {
-      const response = await fetch(`${apiBase()}/api/media`, {
-        method:'POST',
-        headers:{Authorization:`Bearer ${token}`},
-        body:formData
-      });
-      const payload = await response.json();
-      if (!response.ok) throw new Error(payload.error || 'Upload fehlgeschlagen');
-      $('#mediaUrl').value = payload.url;
-      status.textContent = 'UPLOAD ERFOLGREICH';
-    } catch (error) {
-      status.textContent = error.message;
-    }
+  function fileToBase64(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onerror = () => reject(new Error('Datei konnte nicht gelesen werden'));
+      reader.onload = () => {
+        const value = String(reader.result || '');
+        resolve(value.includes(',') ? value.split(',')[1] : value);
+      };
+      reader.readAsDataURL(file);
+    });
   }
 
   function adminCard(title, meta, image, actions) {

@@ -1,6 +1,6 @@
 (() => {
   const isGitHubPages = location.hostname.endsWith('github.io');
-  const cloudflareOrigin = 'https://chabos-united-website.pages.dev';
+  const cloudflareOrigin = 'https://chabosunited.pages.dev';
 
   window.CHABOS_CONFIG = Object.freeze({
     clubId: '5395290',

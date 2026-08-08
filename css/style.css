@@ -171,8 +171,8 @@ img {
     position: absolute;
     left: 0;
     top: 7px;
-    width: 50px;
-    height: 50px;
+    width: 60px;
+    height: 60px;
     margin: 0;
     z-index: 3;
     filter: drop-shadow( 0 2px 3px #000 );
@@ -180,8 +180,8 @@ img {
 
 
     .brand img {
-        width: 48px;
-        height: 48px;
+        width: 58px;
+        height: 58px;
         object-fit: contain;
     }
 
@@ -1170,7 +1170,8 @@ img {
 
 
 .partners {
-    height: 72px;
+    min-height: 72px;
+    height: auto;
 }
 
 
@@ -1185,33 +1186,64 @@ img {
 
 
 .partner-row {
-    height: 49px;
+    min-height: 49px;
+    height: auto;
     display: grid;
     grid-template-columns: repeat(6,1fr);
-    align-items: center;
+    align-items: stretch;
     text-align: center;
     border-bottom: 1px solid rgba(255,255,255,.15);
 }
 
+.partner-row .partner-item {
+    min-width: 0;
+    min-height: 49px;
+    padding: 7px 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-right: 1px solid rgba(255,255,255,.13);
+    color: #d0d0d0;
+    transition: background .2s ease, opacity .2s ease;
+}
 
-    .partner-row span {
-        font-size: 11px;
-        letter-spacing: .08em;
-        color: #d0d0d0;
-        border-right: 1px solid rgba(255,255,255,.13);
-        line-height: 1.05;
-    }
+.partner-row .partner-item:nth-child(6n) {
+    border-right: 0;
+}
 
+.partner-row a.partner-item:hover {
+    background: rgba(255,255,255,.035);
+}
 
-        .partner-row span:last-child {
-            border-right: 0;
-        }
+.partner-row .partner-text {
+    border: 0;
+    font-size: 11px;
+    letter-spacing: .08em;
+    color: #d0d0d0;
+    line-height: 1.05;
+}
 
+.partner-row .partner-text b {
+    font-size: 8px;
+    font-weight: 600;
+}
 
-    .partner-row b {
-        font-size: 8px;
-        font-weight: 600;
-    }
+.partner-logo {
+    display: block;
+    width: auto;
+    height: auto;
+    max-width: 112px;
+    max-height: 29px;
+    object-fit: contain;
+    object-position: center;
+    filter: grayscale(1) brightness(1.28);
+    opacity: .94;
+}
+
+.partner-row a:hover .partner-logo {
+    opacity: 1;
+    filter: grayscale(1) brightness(1.45);
+}
 
 
 
@@ -1900,6 +1932,16 @@ img {
             place-items: center;
             border-bottom: 1px solid rgba(255,255,255,.1);
         }
+
+    .partner-row .partner-item {
+        min-height: 48px;
+        border-bottom: 1px solid rgba(255,255,255,.1);
+    }
+
+    .partner-logo {
+        max-width: 105px;
+        max-height: 28px;
+    }
 
 
 

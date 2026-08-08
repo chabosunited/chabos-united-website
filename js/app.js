@@ -163,12 +163,12 @@
     // Never use match rating as OVR.
     const overall = val(member?.proOverall, member?.overallRating, '--');
     const stats = [
-      ['PAC', val(member?.pace, member?.pac, '--')],
-      ['SHO', val(member?.shooting, member?.sho, '--')],
-      ['PAS', val(member?.passing, member?.pas, '--')],
-      ['DRI', val(member?.dribbling, member?.dri, '--')],
-      ['DEF', val(member?.defending, member?.def, '--')],
-      ['PHY', val(member?.physical, member?.phy, '--')]
+      ['PAC', val(player?.cardStats?.pac, member?.pace, member?.pac, '--')],
+      ['SHO', val(player?.cardStats?.sho, member?.shooting, member?.sho, '--')],
+      ['PAS', val(player?.cardStats?.pas, member?.passing, member?.pas, '--')],
+      ['DRI', val(player?.cardStats?.dri, member?.dribbling, member?.dri, '--')],
+      ['DEF', val(player?.cardStats?.def, member?.defending, member?.def, '--')],
+      ['PHY', val(player?.cardStats?.phy, member?.physical, member?.phy, '--')]
     ];
 
     return `<a class="player-card" href="team.html?player=${encodeURIComponent(name)}">
