@@ -56,6 +56,26 @@
   }
 
   async function getJson(url, fallback) {
+    const cmsKey = ({
+      'data/players.json': 'players',
+      'data/news.json': 'news',
+      'data/interviews.json': 'interviews'
+    })[url];
+
+    if (cmsKey) {
+      try {
+        const base = (cfg.apiBase || '').replace(/\/$/, '');
+        const response = await fetch(`${base}/api/content?key=${encodeURIComponent(cmsKey)}`, {
+          cache: 'no-store',
+          headers: { Accept: 'application/json' }
+        });
+        if (response.ok) {
+          const payload = await response.json();
+          if (payload?.data !== undefined && payload.data !== null) return payload.data;
+        }
+      } catch {}
+    }
+
     try {
       const response = await fetch(url, { cache: 'no-store' });
       if (!response.ok) throw new Error(String(response.status));

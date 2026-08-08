@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <title>ADMIN | Chabos United</title>
+  <meta name="robots" content="noindex,nofollow">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/admin.css">
+  <script defer src="js/config.js"></script>
+  <script defer src="js/admin.js"></script>
+</head>
+<body class="admin-body">
+  <div class="admin-bg"></div>
+
+  <div class="admin-shell is-loading" id="adminApp">
+    <aside class="admin-sidebar">
+      <a class="admin-brand" href="index.html">
+        <img src="assets/branding/logo.webp" alt="Chabos United">
+        <div><strong>CHABOS UNITED</strong><span>ADMIN PANEL</span></div>
+      </a>
+
+      <nav class="admin-nav" aria-label="Admin Navigation">
+        <button class="active" type="button" data-tab="overview"><i class="fa-solid fa-gauge-high"></i> OVERVIEW</button>
+        <button type="button" data-tab="site"><i class="fa-solid fa-sliders"></i> WEBSITE</button>
+        <button type="button" data-tab="news"><i class="fa-regular fa-newspaper"></i> NEWS</button>
+        <button type="button" data-tab="interviews"><i class="fa-solid fa-microphone-lines"></i> INTERVIEWS</button>
+        <button type="button" data-tab="players"><i class="fa-solid fa-people-group"></i> TEAM</button>
+        <button type="button" data-tab="partners"><i class="fa-solid fa-handshake"></i> PARTNER</button>
+        <button type="button" data-tab="media"><i class="fa-regular fa-image"></i> BILDER</button>
+      </nav>
+
+      <div class="admin-sidebar-bottom">
+        <a href="index.html">WEBSITE ANSEHEN</a>
+        <button id="adminLogout" type="button">ABMELDEN</button>
+      </div>
+    </aside>
+
+    <main class="admin-main">
+      <header class="admin-top">
+        <div>
+          <span class="admin-kicker">CHABOS UNITED CMS</span>
+          <h1>ADMINISTRATION</h1>
+        </div>
+        <div class="admin-mode"><span id="adminMode">...</span></div>
+      </header>
+
+      <div class="admin-status" id="adminStatus"></div>
+
+      <section class="admin-section active" data-section="overview">
+        <div class="admin-section-head">
+          <div><span>ÜBERSICHT</span><h2>Dashboard</h2></div>
+        </div>
+        <div class="admin-stat-grid">
+          <article><strong id="countPlayers">0</strong><span>SPIELER</span></article>
+          <article><strong id="countNews">0</strong><span>NEWS</span></article>
+          <article><strong id="countInterviews">0</strong><span>INTERVIEWS</span></article>
+          <article><strong id="countPartners">0</strong><span>PARTNER</span></article>
+        </div>
+
+        <div class="admin-panel admin-info-panel">
+          <h3>SO FUNKTIONIERT DAS CMS</h3>
+          <p>Änderungen werden über Cloudflare KV gespeichert und von Cloudflare Pages sowie GitHub Pages automatisch geladen. Die statischen JSON-Dateien bleiben als Fallback erhalten.</p>
+          <p>Auf localhost läuft ein lokaler Preview-Modus. Login-Passwort dort: <code>admin</code>. Lokale Änderungen bleiben nur in diesem Browser.</p>
+        </div>
+      </section>
+
+      <section class="admin-section" data-section="site">
+        <div class="admin-section-head">
+          <div><span>DESIGN & TEXTE</span><h2>Website Einstellungen</h2></div>
+          <button class="admin-primary" id="saveSite" type="button">SPEICHERN</button>
+        </div>
+
+        <form class="admin-form admin-panel" id="siteForm">
+          <label>Club Name<input name="clubName"></label>
+          <label>Discord URL<input name="discordUrl"></label>
+          <label>Kontakt E-Mail<input name="contactEmail"></label>
+          <label>Logo Pfad / URL<input name="logo"></label>
+          <label>Header Titel Bild<input name="heroTitleImage"></label>
+          <label>Website Hintergrund<input name="websiteBackground"></label>
+          <label class="wide">Recruitment Titel<input name="homeRecruitTitle"></label>
+          <label class="wide">Recruitment Text<textarea name="homeRecruitText"></textarea></label>
+          <label class="wide">Contact Intro<input name="contactIntro"></label>
+          <label class="wide">Footer Tagline<input name="footerTagline"></label>
+
+          <div class="admin-form-group wide">
+            <h3>SOCIAL LINKS</h3>
+            <div class="admin-form-grid">
+              <label>Twitch<input name="social_twitch"></label>
+              <label>Instagram<input name="social_instagram"></label>
+              <label>X / Twitter<input name="social_x"></label>
+              <label>YouTube<input name="social_youtube"></label>
+            </div>
+          </div>
+        </form>
+      </section>
+
+      <section class="admin-section" data-section="news">
+        <div class="admin-section-head">
+          <div><span>CONTENT</span><h2>News</h2></div>
+          <button class="admin-primary" id="addNews" type="button">+ NEWS</button>
+        </div>
+        <div class="admin-list" id="newsAdminList"></div>
+      </section>
+
+      <section class="admin-section" data-section="interviews">
+        <div class="admin-section-head">
+          <div><span>CONTENT</span><h2>Interviews</h2></div>
+          <button class="admin-primary" id="addInterview" type="button">+ INTERVIEW</button>
+        </div>
+        <div class="admin-list" id="interviewAdminList"></div>
+      </section>
+
+      <section class="admin-section" data-section="players">
+        <div class="admin-section-head">
+          <div><span>TEAM</span><h2>Spieler</h2></div>
+          <button class="admin-primary" id="addPlayer" type="button">+ SPIELER</button>
+        </div>
+        <div class="admin-list" id="playerAdminList"></div>
+      </section>
+
+      <section class="admin-section" data-section="partners">
+        <div class="admin-section-head">
+          <div><span>SPONSOREN</span><h2>Partner</h2></div>
+          <div class="admin-head-actions">
+            <button id="addPartner" type="button">+ PARTNER</button>
+            <button class="admin-primary" id="savePartners" type="button">SPEICHERN</button>
+          </div>
+        </div>
+        <div class="admin-panel">
+          <div id="partnersEditor"></div>
+        </div>
+      </section>
+
+      <section class="admin-section" data-section="media">
+        <div class="admin-section-head">
+          <div><span>R2 MEDIA</span><h2>Bilder & Assets</h2></div>
+        </div>
+        <div class="admin-panel">
+          <h3>BILD HOCHLADEN</h3>
+          <p>Cloudflare R2 Binding <code>CHABOS_MEDIA</code> erforderlich. Nach dem Upload erhältst du eine öffentliche URL, die du bei Spielern, News oder Website-Bildern eintragen kannst.</p>
+          <form id="mediaUploadForm" class="media-upload-form">
+            <input id="mediaFile" type="file" accept="image/png,image/jpeg,image/webp,image/avif">
+            <button class="admin-primary" type="submit">UPLOAD</button>
+          </form>
+          <label class="media-url-label">BILD URL<input id="mediaUrl" readonly placeholder="Nach Upload erscheint hier die URL"></label>
+          <div id="mediaStatus" class="admin-inline-status"></div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div class="admin-editor-modal" id="newsEditor" hidden>
+    <div class="admin-editor">
+      <button class="editor-close" type="button">×</button>
+      <h2>NEWS BEARBEITEN</h2>
+      <form id="newsForm" class="admin-form">
+        <label>Typ<select name="type"><option>NEWS</option><option>INTERVIEW</option></select></label>
+        <label>Datum<input name="date"></label>
+        <label class="wide">Titel<input name="title" required></label>
+        <label>Slug<input name="slug" required></label>
+        <label>Bild<input name="image"></label>
+        <label class="wide">Kurztext<textarea name="excerpt"></textarea></label>
+        <label class="wide">Beitrag / Inhalt<textarea name="content" class="tall"></textarea></label>
+        <button class="admin-primary wide" type="submit">NEWS SPEICHERN</button>
+      </form>
+    </div>
+  </div>
+
+  <div class="admin-editor-modal" id="interviewEditor" hidden>
+    <div class="admin-editor">
+      <button class="editor-close" type="button">×</button>
+      <h2>INTERVIEW BEARBEITEN</h2>
+      <form id="interviewForm" class="admin-form">
+        <label>Slug<input name="slug" required></label>
+        <label>Datum<input name="date"></label>
+        <label class="wide">Titel<input name="title" required></label>
+        <label>Spieler<input name="player"></label>
+        <label>Cover<input name="cover"></label>
+        <label class="wide">Zitat<input name="quote"></label>
+        <label class="wide">Intro<textarea name="intro"></textarea></label>
+        <label class="wide">Fragen & Antworten<textarea class="tall" name="qaText" placeholder="Frage|||Antwort&#10;Nächste Frage|||Nächste Antwort"></textarea></label>
+        <button class="admin-primary wide" type="submit">INTERVIEW SPEICHERN</button>
+      </form>
+    </div>
+  </div>
+
+  <div class="admin-editor-modal" id="playerEditor" hidden>
+    <div class="admin-editor">
+      <button class="editor-close" type="button">×</button>
+      <h2>SPIELER BEARBEITEN</h2>
+      <form id="playerForm" class="admin-form">
+        <label>Display Name<input name="displayName" required></label>
+        <label>Position<input name="position"></label>
+        <label>Rolle<input name="role"></label>
+        <label>Nummer<input type="number" name="number"></label>
+        <label>Sortierung<input type="number" name="order"></label>
+        <label class="wide">Spielerbild<input name="image"></label>
+        <label class="wide">EA Namen<input name="eaNamesText" placeholder="MATSCHO63, MATSCHO"></label>
+        <button class="admin-primary wide" type="submit">SPIELER SPEICHERN</button>
+      </form>
+    </div>
+  </div>
+</body>
+</html>

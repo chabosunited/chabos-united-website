@@ -7,6 +7,26 @@
   const clubId = String(cfg.clubId || '5395290');
 
   async function json(url, fallback = []) {
+    const cmsKey = ({
+      'data/players.json': 'players',
+      'data/news.json': 'news',
+      'data/interviews.json': 'interviews'
+    })[url];
+
+    if (cmsKey) {
+      try {
+        const base = (cfg.apiBase || '').replace(/\/$/, '');
+        const response = await fetch(`${base}/api/content?key=${encodeURIComponent(cmsKey)}`, {
+          cache: 'no-store',
+          headers: { Accept: 'application/json' }
+        });
+        if (response.ok) {
+          const payload = await response.json();
+          if (payload?.data !== undefined && payload.data !== null) return payload.data;
+        }
+      } catch {}
+    }
+
     try {
       const response = await fetch(url, { cache: 'no-store' });
       if (!response.ok) throw new Error(String(response.status));
@@ -141,7 +161,7 @@
         <img src="${esc(item.image)}" alt="">
         <div class="news-meta">${esc(item.type)} · ${esc(item.date)}</div>
         <h2>${esc(item.title)}</h2><p>${esc(item.excerpt)}</p>
-        <p>Weitere Inhalte kannst du direkt in <code>data/news.json</code> ergänzen. Die Website benötigt dafür keine Datenbank.</p>
+        ${item.content ? `<div class="article-content">${formatArticleContent(item.content)}</div>` : ''}
       </article>`;
       return;
     }
@@ -152,6 +172,13 @@
       <div class="news-meta">${esc(item.type)} · ${esc(item.date)}</div>
       <h3>${esc(item.title)}</h3><p>${esc(item.excerpt)}</p>
     </a>`).join('');
+  }
+
+  function formatArticleContent(content) {
+    return esc(content)
+      .split(/\n{2,}/)
+      .map(paragraph => `<p>${paragraph.replace(/\n/g, '<br>')}</p>`)
+      .join('');
   }
 
   async function loadInterviews() {

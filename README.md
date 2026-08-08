@@ -123,3 +123,91 @@ GitHub Pages zeigt die Seiten mit `.html`-URLs, zum Beispiel:
 - `news.html`
 
 Cloudflare kann dieselben Dateien zusätzlich als Pretty URLs darstellen. Die internen Links verwenden bewusst `.html`, damit beide Hosts mit identischem Code funktionieren.
+
+
+# Admin Panel / CMS
+
+Das Admin Panel ist absichtlich **nicht in der Navigation verlinkt**.
+
+Öffnen:
+
+1. `contact.html`
+2. Ganz unten links auf **© 2026 CHABOS UNITED.** klicken
+3. Passwort eingeben
+4. Danach wird `admin.html` geöffnet
+
+Der Klick-Trigger existiert ausschließlich auf der Kontaktseite. Andere Seiten besitzen keinen Admin-Trigger.
+
+## Sicherheit
+
+Die versteckte Position ist nur die Benutzeroberfläche. Die eigentliche Sicherheit erfolgt serverseitig über Cloudflare Pages Functions.
+
+Erforderliche Cloudflare Secrets unter:
+
+**Workers & Pages → chabos-united-website → Settings → Variables and Secrets**
+
+- `ADMIN_PASSWORD` = dein gewünschtes Admin-Passwort
+- `ADMIN_SESSION_SECRET` = eine lange zufällige Zeichenfolge, idealerweise mindestens 32 Zeichen
+
+Diese Werte niemals in GitHub speichern.
+
+## Cloudflare KV für CMS-Inhalte
+
+Erstelle eine KV Namespace und binde sie an das Pages-Projekt:
+
+- Binding Name: `CHABOS_CMS`
+
+Darin werden Änderungen an folgenden Bereichen gespeichert:
+
+- Spieler / Team
+- News
+- Interviews
+- Website-Texte und Links
+- Social Links
+- Partner
+
+Wenn noch nichts in KV gespeichert wurde, verwendet die Website automatisch die statischen Dateien in `data/` als Fallback.
+
+## Cloudflare R2 für Bild-Uploads
+
+Optional, aber erforderlich wenn Bilder direkt im Admin Panel hochgeladen werden sollen.
+
+1. Cloudflare → R2 → Bucket erstellen
+2. Pages-Projekt → Settings → Bindings
+3. R2 Bucket Binding hinzufügen
+4. Binding Name: `CHABOS_MEDIA`
+
+Das Admin Panel lädt Bilder über `/api/media` hoch und gibt danach eine öffentliche URL zurück.
+
+Ohne R2 kannst du weiterhin bestehende Asset-Pfade oder externe Bild-URLs im Admin Panel eintragen.
+
+## Localhost Admin Preview
+
+Auf `localhost` bzw. `127.0.0.1` gibt es einen lokalen Preview-Modus.
+
+Passwort:
+
+`admin`
+
+Lokale Änderungen werden dabei nur in `localStorage` dieses Browsers gespeichert und verändern nicht die öffentliche Website.
+
+## Neue CMS-Dateien
+
+- `admin.html` — Admin Dashboard
+- `css/admin.css` — Admin Design
+- `js/admin.js` — Admin CRUD / Editor
+- `js/global.js` — einheitliche Navigation, Social Icons und globale CMS-Einstellungen
+- `js/contact-admin.js` — geheimer Login-Trigger auf CONTACT
+- `data/site.json` — Standard Website-Einstellungen
+- `data/partners.json` — Standard Partner
+- `functions/api/admin.js` — Admin Login + geschützte CMS Schreibzugriffe
+- `functions/api/content.js` — öffentliche CMS-Lese-API
+- `functions/api/media.js` — optionaler R2 Bild-Upload
+
+## Wichtig für GitHub Pages
+
+GitHub Pages selbst besitzt kein Backend.
+
+Wie bei der EA API verwendet `js/config.js` auf `github.io` automatisch die Cloudflare-Pages-Domain als Backend. Dadurch können CMS-Inhalte auch auf der GitHub-Pages-Version angezeigt werden.
+
+Das Admin Panel kann ebenfalls von der GitHub-Pages-Version aus auf die Cloudflare CMS API zugreifen.

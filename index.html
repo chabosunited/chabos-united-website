@@ -1,132 +1,664 @@
 <!doctype html>
 <html lang="de">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-  <title>Chabos United | FC Pro Clubs</title>
-  <meta name="description" content="Offizielle Website von Chabos United. Spieler, Ergebnisse, Statistiken, News, Interviews und Bewerbungen.">
-  <meta name="theme-color" content="#050505">
-  <meta property="og:title" content="Chabos United | FC Pro Clubs">
-  <meta property="og:description" content="Ein Team. Ein Ziel. Chabos United.">
-  <meta property="og:type" content="website">
-  <meta property="og:image" content="https://chabos-united-website.pages.dev/assets/backgrounds/jersey-fabric.webp">
-  <link rel="stylesheet" href="css/style.css">
-  <script defer src="js/config.js"></script>
-  <script defer src="js/app.js"></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+
+    <title>Chabos United | FC Pro Clubs</title>
+
+    <meta name="description"
+          content="Offizielle Website von Chabos United. Spieler, Ergebnisse, Statistiken, News, Interviews und Bewerbungen.">
+
+    <meta name="theme-color" content="#050505">
+
+    <meta property="og:title" content="Chabos United | FC Pro Clubs">
+    <meta property="og:description" content="Ein Team. Ein Ziel. Chabos United.">
+    <meta property="og:type" content="website">
+
+    <meta property="og:image"
+          content="https://chabos-united-website.pages.dev/assets/backgrounds/jersey-fabric.webp">
+
+    <!-- Website CSS -->
+    <link rel="stylesheet" href="css/style.css">
+
+    <!-- Original Social Media Brand Icons -->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+    <script defer src="js/config.js"></script><script defer src="js/global.js"></script>
+    <script defer src="js/app.js"></script>
 </head>
+
 <body>
-  <div class="site-bg" aria-hidden="true"></div>
-  <header class="topbar" id="topbar">
-    <div class="nav-wrap">
-      <a class="brand" href="index.html" aria-label="Chabos United Home"><img src="assets/branding/logo.webp" alt="Chabos United"></a>
-      <button class="nav-toggle" type="button" aria-label="Menü öffnen" aria-expanded="false"><span></span><span></span><span></span></button>
-      <nav class="main-nav" aria-label="Hauptnavigation">
-        <a class="active" href="index.html">HOME</a>
-        <a href="team.html">TEAM</a>
-        <a href="results.html">RESULTS</a>
-        <a href="news.html">NEWS</a>
-        <a href="interviews.html">INTERVIEWS</a>
-        <a href="apply.html">APPLY</a>
-        <a href="#discord">DISCORD</a>
-        <a href="contact.html">CONTACT</a>
-      </nav>
-      <div class="socials" aria-label="Social Media">
-        <a href="#" aria-label="Twitch">▣</a><a href="#" aria-label="Instagram">◎</a><a href="#" aria-label="X">✦</a><a href="#" aria-label="YouTube">▶</a>
-      </div>
-    </div>
-  </header>
 
-  <main>
-    <section class="hero" id="home"><img class="hero-lights" src="assets/effects/hero-lights.webp" alt="" aria-hidden="true">
-      <img class="hero-banner hero-banner-left" src="assets/effects/banner.webp" alt="" aria-hidden="true">
-      <img class="hero-banner hero-banner-right" src="assets/effects/banner.webp" alt="" aria-hidden="true">
-<div class="hero-inner shell">
+    <div class="site-bg"
+         aria-hidden="true"></div>
 
-  <img
-    class="hero-title-image"
-    src="assets/effects/hero-title.png"
-    alt="CHABOS UNITED - FC 27 PRO CLUBS"
-  >
 
-  <div class="hero-actions">
-          <a class="image-button apply" href="apply.html"><img src="assets/ui/apply-button.webp" alt="Jetzt bewerben"></a>
-          <a class="image-button team" href="team.html"><img src="assets/ui/team-button.webp" alt="Team ansehen"></a>
+    <!-- =====================================================
+         HEADER
+    ====================================================== -->
+
+    <header class="topbar"
+            id="topbar">
+
+        <div class="nav-wrap">
+
+            <!-- CLUB LOGO -->
+            <a class="brand"
+               href="index.html"
+               aria-label="Chabos United Home">
+                <img src="assets/branding/logo.webp"
+                     alt="Chabos United">
+            </a>
+
+
+            <!-- MOBILE MENU BUTTON -->
+            <button class="nav-toggle"
+                    type="button"
+                    aria-label="Menü öffnen"
+                    aria-expanded="false">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+
+
+            <!-- MAIN NAVIGATION -->
+            <nav class="main-nav"
+                 aria-label="Hauptnavigation">
+
+                <a class="active"
+                   href="index.html">
+                    HOME
+                </a>
+
+                <a href="team.html">
+                    TEAM
+                </a>
+
+                <a href="results.html">
+                    RESULTS
+                </a>
+
+                <a href="news.html">
+                    NEWS
+                </a>
+
+                <a href="interviews.html">
+                    INTERVIEWS
+                </a>
+
+                <a href="apply.html">
+                    APPLY
+                </a>
+
+                <a href="#discord">
+                    DISCORD
+                </a>
+
+                <a href="contact.html">
+                    CONTACT
+                </a>
+
+            </nav>
+
+
+            <!-- SOCIAL MEDIA -->
+            <div class="socials" aria-label="Social Media"><a href="#" aria-label="Twitch" title="Twitch"><i class="fa-brands fa-twitch" aria-hidden="true"></i></a><a href="#" aria-label="Instagram" title="Instagram"><i class="fa-brands fa-instagram" aria-hidden="true"></i></a><a href="#" aria-label="X / Twitter" title="X / Twitter"><i class="fa-brands fa-x-twitter" aria-hidden="true"></i></a><a href="#" aria-label="YouTube" title="YouTube"><i class="fa-brands fa-youtube" aria-hidden="true"></i></a></div>
+
         </div>
-      </div>
-      <img class="hero-trio" src="assets/effects/hero-stage.webp" alt="Drei Chabos United Spieler">
-      <img class="hero-smoke" src="assets/effects/smoke.webp" alt="" aria-hidden="true">
-    </section>
 
-    <section class="team-section shell" id="team">
-      <div class="section-title-row">
-        <h2>UNSER TEAM</h2>
-        <a class="mini-link" href="team.html">ALLE SPIELER <span>›</span></a>
-      </div>
-      <div class="team-carousel-wrap">
-        <button class="carousel-arrow left" aria-label="Vorherige Spieler">‹‹</button>
-        <div class="team-carousel" id="teamCarousel" aria-live="polite"></div>
-        <button class="carousel-arrow right" aria-label="Nächste Spieler">››</button>
-      </div>
-    </section>
+    </header>
 
-    <section class="match-overview shell panel-cut">
-      <div class="results-panel overview-col">
-        <div class="panel-heading"><h2>LETZTE ERGEBNISSE</h2><a href="results.html">ALLE ERGEBNISSE <span>›</span></a></div>
-        <div id="recentMatches" class="match-list"></div>
-      </div>
-      <div class="table-panel overview-col">
-        <div class="panel-heading"><h2>TABELLE</h2></div>
-        <div class="standings-head"><span>#</span><span>TEAM</span><span>SP</span><span>S</span><span>U</span><span>N</span><span>PKT</span></div>
-        <div class="standing-row active"><span>1</span><strong>CHABOS UNITED</strong><span id="tablePlayed">--</span><span id="tableWins">--</span><span id="tableDraws">--</span><span id="tableLosses">--</span><span id="tablePoints">--</span></div>
-        <div class="standing-row muted"><span>2</span><span>Keine Ligadaten</span><span>--</span><span>--</span><span>--</span><span>--</span><span>--</span></div>
-        <div class="standing-row muted"><span>3</span><span>Keine Ligadaten</span><span>--</span><span>--</span><span>--</span><span>--</span><span>--</span></div>
-        <div class="standing-row muted"><span>4</span><span>Keine Ligadaten</span><span>--</span><span>--</span><span>--</span><span>--</span><span>--</span></div>
-        <div class="standing-row muted"><span>5</span><span>Keine Ligadaten</span><span>--</span><span>--</span><span>--</span><span>--</span><span>--</span></div>
-      </div>
-      <div class="form-panel overview-col">
-        <div class="panel-heading"><h2>FORM</h2></div>
-        <div class="form-badges" id="formBadges"><span>--</span><span>--</span><span>--</span><span>--</span><span>--</span></div>
-        <small>LETZTE 5 SPIELE</small>
-      </div>
-    </section>
 
-    <section class="news-section shell panel-cut">
-      <div class="panel-heading"><h2>NEWS &amp; INTERVIEWS</h2><a href="news.html">ALLE NEWS <span>›</span></a></div>
-      <div class="news-grid" id="homeNews"></div>
-    </section>
+    <!-- =====================================================
+         MAIN
+    ====================================================== -->
 
-    <section class="recruit-community shell">
-      <article class="recruit panel-cut">
-        <div class="recruit-copy">
-          <h2>WERDE TEIL DER FAMILIE</h2>
-          <p>Du willst Teil von Chabos United werden? Wir suchen motivierte, teamfähige und ehrgeizige Spieler für FC 27 Pro Clubs.</p>
-          <ul><li>Ambitioniertes Team &amp; klare Ziele</li><li>Regelmäßige Sessions &amp; Turniere</li><li>Aktive Community &amp; Support</li></ul>
-          <a class="image-button recruit-button" href="apply.html"><img src="assets/ui/apply-button.webp" alt="Jetzt bewerben"></a>
+    <main>
+
+
+        <!-- ===================================================
+             HERO
+        ==================================================== -->
+
+        <section class="hero"
+                 id="home">
+
+
+            <div class="hero-inner shell">
+
+                <!-- HEADER PNG -->
+                <img class="hero-title-image"
+                     src="assets/effects/hero-title.png"
+                     alt="Chabos United - FC 27 Pro Clubs">
+
+
+                <div class="hero-actions">
+
+                    <a class="image-button apply"
+                       href="apply.html">
+                        <img src="assets/ui/apply-button.webp"
+                             alt="Jetzt bewerben">
+                    </a>
+
+                    <a class="image-button team"
+                       href="team.html">
+                        <img src="assets/ui/team-button.webp"
+                             alt="Team ansehen">
+                    </a>
+
+                </div>
+
+            </div>
+
+
+        </section>
+
+
+        <!-- ===================================================
+             TEAM
+        ==================================================== -->
+
+        <section class="team-section shell"
+                 id="team">
+
+            <div class="section-title-row">
+
+                <h2>
+                    UNSER TEAM
+                </h2>
+
+                <a class="mini-link"
+                   href="team.html">
+                    ALLE SPIELER <span>›</span>
+                </a>
+
+            </div>
+
+
+            <div class="team-carousel-wrap">
+
+                <button class="carousel-arrow left"
+                        aria-label="Vorherige Spieler">
+                    ‹‹
+                </button>
+
+
+                <div class="team-carousel"
+                     id="teamCarousel"
+                     aria-live="polite"></div>
+
+
+                <button class="carousel-arrow right"
+                        aria-label="Nächste Spieler">
+                    ››
+                </button>
+
+            </div>
+
+        </section>
+
+
+        <!-- ===================================================
+             MATCH OVERVIEW
+        ==================================================== -->
+
+        <section class="match-overview shell panel-cut">
+
+
+            <!-- RESULTS -->
+
+            <div class="results-panel overview-col">
+
+                <div class="panel-heading">
+
+                    <h2>
+                        LETZTE ERGEBNISSE
+                    </h2>
+
+                    <a href="results.html">
+                        ALLE ERGEBNISSE <span>›</span>
+                    </a>
+
+                </div>
+
+
+                <div id="recentMatches"
+                     class="match-list"></div>
+
+            </div>
+
+
+            <!-- TABLE -->
+
+            <div class="table-panel overview-col">
+
+                <div class="panel-heading">
+
+                    <h2>
+                        TABELLE
+                    </h2>
+
+                </div>
+
+
+                <div class="standings-head">
+
+                    <span>#</span>
+                    <span>TEAM</span>
+                    <span>SP</span>
+                    <span>S</span>
+                    <span>U</span>
+                    <span>N</span>
+                    <span>PKT</span>
+
+                </div>
+
+
+                <div class="standing-row active">
+
+                    <span>1</span>
+
+                    <strong>
+                        CHABOS UNITED
+                    </strong>
+
+                    <span id="tablePlayed">
+                        --
+                    </span>
+
+                    <span id="tableWins">
+                        --
+                    </span>
+
+                    <span id="tableDraws">
+                        --
+                    </span>
+
+                    <span id="tableLosses">
+                        --
+                    </span>
+
+                    <span id="tablePoints">
+                        --
+                    </span>
+
+                </div>
+
+
+                <div class="standing-row muted">
+                    <span>2</span>
+                    <span>Keine Ligadaten</span>
+                    <span>--</span>
+                    <span>--</span>
+                    <span>--</span>
+                    <span>--</span>
+                    <span>--</span>
+                </div>
+
+
+                <div class="standing-row muted">
+                    <span>3</span>
+                    <span>Keine Ligadaten</span>
+                    <span>--</span>
+                    <span>--</span>
+                    <span>--</span>
+                    <span>--</span>
+                    <span>--</span>
+                </div>
+
+
+                <div class="standing-row muted">
+                    <span>4</span>
+                    <span>Keine Ligadaten</span>
+                    <span>--</span>
+                    <span>--</span>
+                    <span>--</span>
+                    <span>--</span>
+                    <span>--</span>
+                </div>
+
+
+                <div class="standing-row muted">
+                    <span>5</span>
+                    <span>Keine Ligadaten</span>
+                    <span>--</span>
+                    <span>--</span>
+                    <span>--</span>
+                    <span>--</span>
+                    <span>--</span>
+                </div>
+
+            </div>
+
+
+            <!-- FORM -->
+
+            <div class="form-panel overview-col">
+
+                <div class="panel-heading">
+
+                    <h2>
+                        FORM
+                    </h2>
+
+                </div>
+
+
+                <div class="form-badges"
+                     id="formBadges">
+
+                    <span>--</span>
+                    <span>--</span>
+                    <span>--</span>
+                    <span>--</span>
+                    <span>--</span>
+
+                </div>
+
+                <small>
+                    LETZTE 5 SPIELE
+                </small>
+
+            </div>
+
+        </section>
+
+
+        <!-- ===================================================
+             NEWS
+        ==================================================== -->
+
+        <section class="news-section shell panel-cut">
+
+            <div class="panel-heading">
+
+                <h2>
+                    NEWS &amp; INTERVIEWS
+                </h2>
+
+                <a href="news.html">
+                    ALLE NEWS <span>›</span>
+                </a>
+
+            </div>
+
+
+            <div class="news-grid"
+                 id="homeNews"></div>
+
+        </section>
+
+
+        <!-- ===================================================
+             RECRUITMENT + COMMUNITY
+        ==================================================== -->
+
+        <section class="recruit-community shell">
+
+
+            <!-- RECRUITMENT -->
+
+            <article class="recruit panel-cut">
+
+                <div class="recruit-copy">
+
+                    <h2>
+                        WERDE TEIL DER FAMILIE
+                    </h2>
+
+
+                    <p>
+                        Du willst Teil von Chabos United werden?
+                        Wir suchen motivierte, teamfähige und
+                        ehrgeizige Spieler für FC 27 Pro Clubs.
+                    </p>
+
+
+                    <ul>
+
+                        <li>
+                            Ambitioniertes Team &amp; klare Ziele
+                        </li>
+
+                        <li>
+                            Regelmäßige Sessions &amp; Turniere
+                        </li>
+
+                        <li>
+                            Aktive Community &amp; Support
+                        </li>
+
+                    </ul>
+
+
+                    <a class="image-button recruit-button"
+                       href="apply.html">
+
+                        <img src="assets/ui/apply-button.webp"
+                             alt="Jetzt bewerben">
+
+                    </a>
+
+                </div>
+
+
+                <img class="recruit-watermark"
+                     src="assets/branding/logo.webp"
+                     alt=""
+                     aria-hidden="true">
+
+            </article>
+
+
+            <!-- COMMUNITY -->
+
+            <article class="community panel-cut"
+                     id="discord">
+
+                <h2>
+                    COMMUNITY
+                </h2>
+
+                <h3>
+                    DISCORD SERVER
+                </h3>
+
+                <p>
+                    Werde Teil unserer Community!
+                    Tausche dich aus, finde Mitspieler
+                    und bleibe immer up to date.
+                </p>
+
+
+                <div class="discord-logo"
+                     aria-hidden="true">
+                    <i class="fa-brands fa-discord"></i>
+                </div>
+
+
+                <a class="discord-button"
+                   data-discord-link
+                   href="#">
+                    JETZT BEITRETEN
+                </a>
+
+            </article>
+
+        </section>
+
+
+        <!-- ===================================================
+             PARTNERS
+        ==================================================== -->
+
+        <section class="partners shell">
+
+            <div class="partners-label">
+                UNSERE PARTNER
+            </div>
+
+
+            <div class="partner-row">
+
+                <span>
+                    ◉ GLORIOUS
+                    <br>
+                    <b>GAMING</b>
+                </span>
+
+
+                <span>
+                    ◈ LEVLUP
+                    <br>
+                    <b>GAMING BOOSTER</b>
+                </span>
+
+
+                <span>
+                    ◩ INSTANT
+                    <br>
+                    <b>GAMING</b>
+                </span>
+
+
+                <span>
+                    <b>FLEXISPOT</b>
+                </span>
+
+
+                <span>
+                    ≡ A D E P T
+                </span>
+
+
+                <span>
+                    ◩ ZURICH
+                    <br>
+                    <b>E-SPORTS</b>
+                </span>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- =====================================================
+         FOOTER
+    ====================================================== -->
+
+    <footer class="footer shell panel-cut">
+
+
+        <div class="footer-brand">
+
+            <img src="assets/branding/logo.webp"
+                 alt="Chabos United">
+
+
+            <div>
+
+                <strong>
+                    CHABOS UNITED
+                </strong>
+
+                <span>
+                    FC 27 PRO CLUBS
+                </span>
+
+                <small>
+                    EIN TEAM. EIN ZIEL. CHABOS UNITED.
+                </small>
+
+            </div>
+
         </div>
-        <img class="recruit-figure" src="assets/effects/recruit-hoodie.webp" alt="Chabos United Spieler">
-        <img class="recruit-watermark" src="assets/branding/logo.webp" alt="" aria-hidden="true">
-      </article>
-      <article class="community panel-cut" id="discord">
-        <h2>COMMUNITY</h2>
-        <h3>DISCORD SERVER</h3>
-        <p>Werde Teil unserer Community! Tausche dich aus, finde Mitspieler und bleibe immer up to date.</p>
-        <div class="discord-mark" aria-hidden="true"><span>●</span><span>●</span></div>
-        <a class="discord-button" data-discord-link href="#">JETZT BEITRETEN</a>
-      </article>
-    </section>
 
-    <section class="partners shell">
-      <div class="partners-label">UNSERE PARTNER</div>
-      <div class="partner-row"><span>◉ GLORIOUS<br><b>GAMING</b></span><span>◈ LEVLUP<br><b>GAMING BOOSTER</b></span><span>◩ INSTANT<br><b>GAMING</b></span><span><b>FLEXISPOT</b></span><span>≡ A D E P T</span><span>◩ ZURICH<br><b>E-SPORTS</b></span></div>
-    </section>
-  </main>
 
-  <footer class="footer shell panel-cut">
-    <div class="footer-brand"><img src="assets/branding/logo.webp" alt="Chabos United"><div><strong>CHABOS UNITED</strong><span>FC 27 PRO CLUBS</span><small>EIN TEAM. EIN ZIEL. CHABOS UNITED.</small></div></div>
-    <div class="footer-links"><h4>QUICK LINKS</h4><a href="index.html">HOME</a><a href="team.html">TEAM</a><a href="results.html">RESULTS</a><a href="news.html">NEWS</a></div>
-    <div class="footer-links"><h4>FOLLOW US</h4><a href="#">TWITCH</a><a href="#">INSTAGRAM</a><a href="#">X / TWITTER</a><a href="#">YOUTUBE</a></div>
-    <div class="footer-links"><h4>KONTAKT</h4><a href="mailto:chabosunited@proclubs.gg">chabosunited@proclubs.gg</a><span>#ChabosUnited</span></div>
-    <div class="footer-bottom"><span>© 2026 CHABOS UNITED. ALL RIGHTS RESERVED.</span><span>DESIGNED FOR PLAYERS. BUILT FOR VICTORY.</span></div>
-  </footer>
+        <div class="footer-links">
+
+            <h4>
+                QUICK LINKS
+            </h4>
+
+            <a href="index.html">
+                HOME
+            </a>
+
+            <a href="team.html">
+                TEAM
+            </a>
+
+            <a href="results.html">
+                RESULTS
+            </a>
+
+            <a href="news.html">
+                NEWS
+            </a>
+
+        </div>
+
+
+        <div class="footer-links">
+
+            <h4>
+                FOLLOW US
+            </h4>
+
+            <a href="#">
+                TWITCH
+            </a>
+
+            <a href="#">
+                INSTAGRAM
+            </a>
+
+            <a href="#">
+                X / TWITTER
+            </a>
+
+            <a href="#">
+                YOUTUBE
+            </a>
+
+        </div>
+
+
+        <div class="footer-links">
+
+            <h4>
+                KONTAKT
+            </h4>
+
+            <a href="mailto:chabosunited@proclubs.gg">
+                chabosunited@proclubs.gg
+            </a>
+
+            <span>
+                #ChabosUnited
+            </span>
+
+        </div>
+
+
+        <div class="footer-bottom">
+
+            <span>
+                © 2026 CHABOS UNITED. ALL RIGHTS RESERVED.
+            </span>
+
+            <span>
+                DESIGNED FOR PLAYERS. BUILT FOR VICTORY.
+            </span>
+
+        </div>
+
+    </footer>
+
 </body>
 </html>

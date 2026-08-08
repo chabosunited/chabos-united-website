@@ -1,0 +1,18 @@
+{
+  "clubName": "Chabos United",
+  "discordUrl": "https://discord.gg/Jg5Mfyhg6",
+  "contactEmail": "chabosunited@proclubs.gg",
+  "socials": {
+    "twitch": "#",
+    "instagram": "#",
+    "x": "#",
+    "youtube": "#"
+  },
+  "heroTitleImage": "assets/effects/hero-title.png",
+  "websiteBackground": "assets/backgrounds/website-background.webp",
+  "logo": "assets/branding/logo.webp",
+  "homeRecruitTitle": "WERDE TEIL DER FAMILIE",
+  "homeRecruitText": "Du willst Teil von Chabos United werden? Wir suchen motivierte, teamfähige und ehrgeizige Spieler für FC 27 Pro Clubs.",
+  "contactIntro": "Kontakt zu Chabos United.",
+  "footerTagline": "EIN TEAM. EIN ZIEL. CHABOS UNITED."
+}
