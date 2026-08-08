@@ -1,5 +1,5 @@
 # Chabos United Website — GitHub Pages + Cloudflare Pages
-.-
+
 Diese Version ist so angepasst, dass **dieselbe Codebasis gleichzeitig auf GitHub Pages und Cloudflare Pages** funktioniert.
 
 ## Live-Daten
